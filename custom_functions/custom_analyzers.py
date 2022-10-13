@@ -12,7 +12,7 @@ def c_answer(bot: TeleBot, user_id, answer, params):
     if answer.lower() == params[1].lower():
         score = score + 1
         DBConnect.update_custom_user_filed(user_id, 'users', 'score', score)
-        bot.send_message(user_id, f"Верно!\nУ тебя {score} баллов")
+        bot.send_message(user_id, f"Верно!\nВаши баллы: {score}")
     else:
-        bot.send_message(user_id, f"Ошибка!\nУ тебя {score} баллов")
+        bot.send_message(user_id, f"Ошибка!\nВаши баллы: {score}")
     return params[0]
