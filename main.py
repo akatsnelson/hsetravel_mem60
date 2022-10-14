@@ -1,6 +1,7 @@
 import telebot
 
 from config.config import bot_id, answer_err
+from custom_functions.custom_answers import get_stat
 from service.text_service import TextService
 from service.update_service import UpdateService
 from service.user_service import UserService
@@ -12,10 +13,17 @@ bot = telebot.TeleBot(bot_id)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     user_id = message.from_user.id
-    if UserService.is_user_exists(user_id):
-        UserService.delete_user(user_id)
-    UserService.create_user(user_id)
+    if not UserService.is_user_exists(user_id):
+        UserService.create_user(user_id)
     TextService.analyzer_and_sender(user_id, bot)
+
+
+@bot.message_handler(commands=['top'])
+def stat(message):
+    user_id = message.from_user.id
+    if not UserService.is_user_exists(user_id):
+        UserService.create_user(user_id)
+    get_stat(bot, user_id)
 
 
 @bot.message_handler(commands=['restart'])
@@ -26,14 +34,12 @@ def send_message_again(message):
     TextService.analyzer_and_sender(user_id, bot, repeat=True)
 
 
-@bot.message_handler(commands=['update'])
-def update_req(message):
-    user_id = message.from_user.id
-    if not UserService.is_user_exists(user_id):
-        UserService.create_user(user_id)
-    TextService.send_next_step(user_id, bot, answer_err)
-    curr_step = UserService.get_user_step(user_id)
-    TextService.send_next_step(user_id, bot, curr_step)
+# @bot.message_handler(commands=['update'])
+# def update_req(message):
+#     user_id = message.from_user.id
+#     if not UserService.is_user_exists(user_id):
+#         UserService.create_user(user_id)
+#
 
 
 @bot.message_handler(content_types=['text'])

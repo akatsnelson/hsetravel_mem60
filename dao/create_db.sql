@@ -17,7 +17,9 @@ create table if not exists users
         constraint users_pk
             primary key,
     username            varchar(100) default "",
-    score               integer(3) default 0,
+    s_1               integer(3) default -1,
+    s_2               integer(3) default -1,
+    s_3               integer(3) default -1,
 
     step                integer references steps_history,
     user_freeze         boolean

@@ -35,6 +35,20 @@ class UserDao:
                 cur.close()
 
     @staticmethod
+    def get_users():
+        q = f'select * from main.users'
+        cur = DBConnect().getCursor()
+        try:
+            cur.execute(q)
+            o = cur.fetchall()
+            return o
+        except sqlite3.Error as e:
+            raise e
+        finally:
+            if cur:
+                cur.close()
+
+    @staticmethod
     def get_user_step_by_id(tg_id):
         q = f'select step from users where tg_id = {tg_id}'
         return DBConnect().do_select_query(q)

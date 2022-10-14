@@ -17,6 +17,10 @@ class UserService:
         return UserDao.get_user_by_id(id)
 
     @staticmethod
+    def get_users():
+        return UserDao.get_users()
+
+    @staticmethod
     def create_user(user_id):
         start_step_id = StepsHistoryDao.create_step(start_step, 'NULL')
         UserDao.create_user(user_id, start_step_id)
